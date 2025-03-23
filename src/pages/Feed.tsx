@@ -39,7 +39,7 @@ const Feed = () => {
             avatar: 'https://i.pravatar.cc/150?img=2',
           },
           image: 'https://images.unsplash.com/photo-1547150492-da7ff1742941',
-          caption: 'This obscure coffee shop has the best brew in town. Can't believe I've walked past it so many times!',
+          caption: "This obscure coffee shop has the best brew in town. Can't believe I've walked past it so many times!",
           location: 'Hidden Brew Cafe',
           timestamp: new Date(new Date().getTime() - 40 * 60 * 1000), // 40 minutes ago
           likes: 24,

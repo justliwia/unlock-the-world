@@ -14,7 +14,7 @@ const Index = () => {
       setTodayChallenge({
         id: '1',
         title: 'Find a Hidden Spot in Your City',
-        description: 'Discover a spot in your city you've never visited before. Take a photo that captures what makes it special.',
+        description: "Discover a spot in your city you've never visited before. Take a photo that captures what makes it special.",
         expiresAt: new Date(new Date().getTime() + 24 * 60 * 60 * 1000), // 24 hours from now
         completed: false,
       });
