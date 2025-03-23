@@ -3,12 +3,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom';
-import { CameraIcon, XIcon, CheckIcon, RefreshCwIcon } from 'lucide-react';
+import { CameraIcon, XIcon, CheckIcon, RefreshCwIcon, ImageIcon } from 'lucide-react';
+import { toast } from "sonner";
 
 const CameraCapture: React.FC = () => {
   const [cameraReady, setCameraReady] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [usingMockCamera, setUsingMockCamera] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
@@ -26,6 +28,10 @@ const CameraCapture: React.FC = () => {
         }
       } catch (error) {
         console.error('Error accessing camera:', error);
+        // Automatically switch to mock camera mode when camera access fails
+        setUsingMockCamera(true);
+        setCameraReady(true);
+        toast.info("Using demo mode - camera access not available");
       }
     };
     
@@ -41,6 +47,20 @@ const CameraCapture: React.FC = () => {
   }, []);
   
   const capturePhoto = () => {
+    if (usingMockCamera) {
+      // Use placeholder images for mock capture
+      const mockImages = [
+        'https://images.unsplash.com/photo-1506905925346-21bda4d32df4',
+        'https://images.unsplash.com/photo-1519331379826-f10be5486c6f',
+        'https://images.unsplash.com/photo-1449034446853-66c86144b0ad',
+        'https://images.unsplash.com/photo-1507608616040-a5cc07d189b9',
+      ];
+      const randomIndex = Math.floor(Math.random() * mockImages.length);
+      setCapturedImage(mockImages[randomIndex]);
+      toast.success("Photo captured in demo mode!");
+      return;
+    }
+    
     if (videoRef.current && canvasRef.current) {
       const context = canvasRef.current.getContext('2d');
       
@@ -77,6 +97,39 @@ const CameraCapture: React.FC = () => {
     }
   };
   
+  const renderCameraView = () => {
+    if (usingMockCamera) {
+      return (
+        <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-xl">
+          <div className="text-center p-4">
+            <ImageIcon size={64} className="mx-auto mb-4 text-gray-400" />
+            <p className="text-muted-foreground mb-1">Camera access unavailable</p>
+            <p className="text-xs text-muted-foreground">Using demo mode instead</p>
+          </div>
+        </div>
+      );
+    }
+    
+    return (
+      <>
+        <video 
+          ref={videoRef}
+          autoPlay 
+          playsInline 
+          className={`w-full h-full object-cover ${cameraReady ? 'opacity-100' : 'opacity-0'}`}
+          onCanPlay={() => setCameraReady(true)}
+        />
+        {!cameraReady && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="animate-rotate-360">
+              <RefreshCwIcon size={32} className="text-primary" />
+            </div>
+          </div>
+        )}
+      </>
+    );
+  };
+  
   return (
     <motion.div
       className="flex flex-col items-center relative h-full"
@@ -86,22 +139,7 @@ const CameraCapture: React.FC = () => {
     >
       <div className="relative w-full h-[70vh] overflow-hidden rounded-xl mb-4">
         {!capturedImage ? (
-          <>
-            <video 
-              ref={videoRef}
-              autoPlay 
-              playsInline 
-              className={`w-full h-full object-cover ${cameraReady ? 'opacity-100' : 'opacity-0'}`}
-              onCanPlay={() => setCameraReady(true)}
-            />
-            {!cameraReady && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="animate-rotate-360">
-                  <RefreshCwIcon size={32} className="text-primary" />
-                </div>
-              </div>
-            )}
-          </>
+          renderCameraView()
         ) : (
           <img 
             src={capturedImage} 
