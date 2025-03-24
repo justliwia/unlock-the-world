@@ -15,6 +15,9 @@ import TimeUp from "./pages/TimeUp";
 import Profile from "./pages/Profile";
 import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
+import Signup from "./pages/Signup";
+import Customize from "./pages/Customize";
+import ChallengeSelection from "./pages/ChallengeSelection";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +38,36 @@ const App = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <Index />
+                </motion.div>
+              } />
+              <Route path="/signup" element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Signup />
+                </motion.div>
+              } />
+              <Route path="/customize" element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Customize />
+                </motion.div>
+              } />
+              <Route path="/challenge-selection" element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ChallengeSelection />
                 </motion.div>
               } />
               <Route path="/capture" element={

@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
+    --background: 47 43% 96%;
     --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
@@ -14,16 +14,23 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 210 100% 50%;
-    --primary-foreground: 210 20% 98%;
+    /* Custom Vibe color palette */
+    --teal-green: 162 32% 51%;
+    --coral-red: 2 85% 70%;
+    --deep-blue: 235 31% 50%;
+    --warm-brown: 29 45% 54%;
+    --soft-cream: 43 43% 96%;
 
-    --secondary: 220 16% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --primary: var(--deep-blue);
+    --primary-foreground: var(--soft-cream);
+
+    --secondary: var(--teal-green);
+    --secondary-foreground: 210 20% 98%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 236 100% 97%;
+    --accent: var(--coral-red);
     --accent-foreground: 222 47% 11%;
 
     --destructive: 0 84% 60%;
@@ -42,6 +49,7 @@
 
   html, body, #root {
     @apply h-full w-full overflow-hidden;
+    background-color: hsl(var(--soft-cream));
   }
 
   body {
@@ -80,19 +88,46 @@
 
   /* Button styles */
   .btn-primary {
-    @apply bg-primary text-primary-foreground rounded-full px-6 py-3 font-medium 
-           transition-all duration-300 hover:shadow-lg hover:shadow-primary/20
+    @apply bg-[hsl(var(--deep-blue))] text-[hsl(var(--soft-cream))] rounded-full px-6 py-3 font-medium 
+           transition-all duration-300 hover:shadow-lg hover:shadow-[hsl(var(--deep-blue))]/20
            active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
-    @apply bg-secondary text-secondary-foreground rounded-full px-6 py-3 font-medium 
-           transition-all duration-300 hover:bg-secondary/80
+    @apply bg-[hsl(var(--teal-green))] text-white rounded-full px-6 py-3 font-medium 
+           transition-all duration-300 hover:bg-[hsl(var(--teal-green))]/80
+           active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed;
+  }
+
+  .btn-accent {
+    @apply bg-[hsl(var(--coral-red))] text-white rounded-full px-6 py-3 font-medium 
+           transition-all duration-300 hover:bg-[hsl(var(--coral-red))]/80
+           active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed;
+  }
+
+  .btn-brown {
+    @apply bg-[hsl(var(--warm-brown))] text-white rounded-full px-6 py-3 font-medium 
+           transition-all duration-300 hover:bg-[hsl(var(--warm-brown))]/80
            active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed;
   }
 
   /* Text animations */
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--deep-blue))] to-[hsl(var(--teal-green))];
+  }
+
+  /* Retro-futuristic elements */
+  .retro-card {
+    @apply rounded-xl border-2 border-[hsl(var(--teal-green))]/50 bg-white/90 
+           p-4 shadow-md transition-all duration-300 hover:shadow-lg 
+           hover:shadow-[hsl(var(--deep-blue))]/20;
+  }
+
+  .retro-border {
+    @apply border-2 border-[hsl(var(--coral-red))]/70 rounded-xl;
+  }
+
+  .retro-glow {
+    @apply shadow-[0_0_15px_rgba(87,175,152,0.5)];
   }
 }

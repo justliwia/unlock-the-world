@@ -1,100 +1,117 @@
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import Header from '@/components/Header';
-import ChallengeCard from '@/components/ChallengeCard';
+import { useNavigate } from 'react-router-dom';
+import { ArrowRight, Camera, MessageCircle, Clock, Heart } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
-  const [loading, setLoading] = useState(true);
-  const [todayChallenge, setTodayChallenge] = useState<any>(null);
-  
-  useEffect(() => {
-    // Simulate loading of daily challenge
-    const timer = setTimeout(() => {
-      setTodayChallenge({
-        id: '1',
-        title: 'Find a Hidden Spot in Your City',
-        description: "Discover a spot in your city you've never visited before. Take a photo that captures what makes it special.",
-        expiresAt: new Date(new Date().getTime() + 24 * 60 * 60 * 1000), // 24 hours from now
-        completed: false,
-      });
-      setLoading(false);
-    }, 1000);
-    
-    return () => clearTimeout(timer);
-  }, []);
+  const navigate = useNavigate();
   
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      
-      <main className="flex-1 px-4 pt-4 pb-20 max-w-md mx-auto w-full">
-        {loading ? (
-          <div className="h-full flex flex-col items-center justify-center">
-            <motion.div
-              className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            />
-            <p className="mt-4 text-muted-foreground">Loading today's challenge...</p>
-          </div>
-        ) : (
-          <>
-            <motion.div 
-              className="text-center mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <motion.h1 
-                className="text-3xl font-bold mb-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                Unlock The World
-              </motion.h1>
-              <motion.p 
-                className="text-muted-foreground"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-              >
-                Complete today's challenge to see what your friends shared
-              </motion.p>
-            </motion.div>
-          
-            <ChallengeCard challenge={todayChallenge} />
+    <div className="min-h-screen flex flex-col items-center bg-[hsl(var(--soft-cream))]">
+      <div className="w-full max-w-md px-4 pt-16 pb-20">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <motion.h1 
+            className="text-4xl font-bold mb-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            <span className="text-gradient">Vibe</span> Journal
+          </motion.h1>
+          <motion.p 
+            className="text-muted-foreground text-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            Connect meaningfully through daily discovery challenges
+          </motion.p>
+        </motion.div>
+        
+        <motion.div
+          className="mb-10"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+        >
+          <div className="relative rounded-2xl overflow-hidden h-56 mb-4">
+            <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--deep-blue))]/90 to-[hsl(var(--teal-green))]/90 z-0" />
             
-            <motion.div 
-              className="mt-8 px-4 py-6 glass rounded-lg"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
+            <div className="relative z-10 h-full flex flex-col items-center justify-center text-white p-6">
+              <Camera size={42} className="mb-4 opacity-90" />
+              <h2 className="text-xl font-bold mb-2">Complete Daily Challenges</h2>
+              <p className="text-center text-sm opacity-90">
+                Explore your city, discover new experiences, and share them with friends
+              </p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div className="retro-card p-5 flex flex-col items-center text-center">
+              <Clock size={28} className="mb-3 text-[hsl(var(--warm-brown))]" />
+              <h3 className="font-medium mb-1">Time-Limited</h3>
+              <p className="text-xs text-muted-foreground">
+                30-minute access to friend content after completing challenges
+              </p>
+            </div>
+            
+            <div className="retro-card p-5 flex flex-col items-center text-center">
+              <MessageCircle size={28} className="mb-3 text-[hsl(var(--coral-red))]" />
+              <h3 className="font-medium mb-1">Voice Reactions</h3>
+              <p className="text-xs text-muted-foreground">
+                Respond to friends' posts with voice messages
+              </p>
+            </div>
+            
+            <div className="retro-card p-5 flex flex-col items-center text-center">
+              <Heart size={28} className="mb-3 text-[hsl(var(--deep-blue))]" />
+              <h3 className="font-medium mb-1">Interest-Based</h3>
+              <p className="text-xs text-muted-foreground">
+                Discover challenges based on your interests
+              </p>
+            </div>
+            
+            <div className="retro-card p-5 flex flex-col items-center text-center">
+              <div className="font-mono text-2xl mb-1 text-[hsl(var(--teal-green))]">5/5</div>
+              <h3 className="font-medium mb-1">Engagement Score</h3>
+              <p className="text-xs text-muted-foreground">
+                Track your growth and achievements
+              </p>
+            </div>
+          </div>
+        </motion.div>
+        
+        <motion.div
+          className="space-y-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        >
+          <Button
+            onClick={() => navigate('/signup')}
+            className="w-full btn-primary h-12"
+          >
+            Create Account
+            <ArrowRight size={16} className="ml-2" />
+          </Button>
+          
+          <div className="text-center">
+            <button 
+              onClick={() => navigate('/feed')} 
+              className="text-[hsl(var(--deep-blue))] hover:underline text-sm font-medium"
             >
-              <h3 className="font-semibold mb-2">How it works:</h3>
-              <ul className="text-sm text-muted-foreground space-y-2">
-                <li className="flex items-start">
-                  <span className="inline-block w-5 h-5 bg-primary text-white rounded-full flex items-center justify-center text-xs mr-2 mt-0.5">1</span>
-                  <span>Complete the daily challenge with a photo</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-5 h-5 bg-primary text-white rounded-full flex items-center justify-center text-xs mr-2 mt-0.5">2</span>
-                  <span>Unlock your feed for a limited time window</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-5 h-5 bg-primary text-white rounded-full flex items-center justify-center text-xs mr-2 mt-0.5">3</span>
-                  <span>See how friends completed the same challenge</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-5 h-5 bg-primary text-white rounded-full flex items-center justify-center text-xs mr-2 mt-0.5">4</span>
-                  <span>React with voice messages or suggest real-world meetups</span>
-                </li>
-              </ul>
-            </motion.div>
-          </>
-        )}
-      </main>
+              Demo without signing up
+            </button>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 };
