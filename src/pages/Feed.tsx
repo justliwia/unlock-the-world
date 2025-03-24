@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -6,8 +5,6 @@ import FeedPost from '@/components/FeedPost';
 import TimeLimit from '@/components/TimeLimit';
 import ScrollableContent from '@/components/ScrollableContent';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Button } from "@/components/ui/button";
-import { Bell, Calendar, Star, BookOpen, Music, Palette } from 'lucide-react';
 
 const Feed = () => {
   const navigate = useNavigate();
@@ -202,38 +199,12 @@ const Feed = () => {
     navigate('/time-up');
   };
   
-  const renderCategories = () => (
-    <div className="flex overflow-x-auto py-2 mb-4 gap-2 no-scrollbar">
-      <Button variant="outline" size="sm" className="rounded-full flex-shrink-0 bg-[hsl(var(--deep-blue))]/10 border-[hsl(var(--deep-blue))]/30 text-[hsl(var(--deep-blue))]">
-        All
-      </Button>
-      <Button variant="outline" size="sm" className="rounded-full flex-shrink-0 bg-[hsl(var(--teal-green))]/10 border-[hsl(var(--teal-green))]/30 text-[hsl(var(--teal-green))]">
-        <Star size={14} className="mr-1" />
-        Exploration
-      </Button>
-      <Button variant="outline" size="sm" className="rounded-full flex-shrink-0 bg-[hsl(var(--coral-red))]/10 border-[hsl(var(--coral-red))]/30 text-[hsl(var(--coral-red))]">
-        <Palette size={14} className="mr-1" />
-        Art
-      </Button>
-      <Button variant="outline" size="sm" className="rounded-full flex-shrink-0 bg-[hsl(var(--warm-brown))]/10 border-[hsl(var(--warm-brown))]/30 text-[hsl(var(--warm-brown))]">
-        <BookOpen size={14} className="mr-1" />
-        Reading
-      </Button>
-      <Button variant="outline" size="sm" className="rounded-full flex-shrink-0 bg-[hsl(var(--deep-blue))]/10 border-[hsl(var(--deep-blue))]/30 text-[hsl(var(--deep-blue))]">
-        <Music size={14} className="mr-1" />
-        Music
-      </Button>
-    </div>
-  );
-  
   const renderContent = () => (
     <>
       <div className="mb-6 text-center">
         <h2 className="text-xl font-bold mb-2 text-gradient">Today's Vibe Journal</h2>
         <p className="text-sm text-muted-foreground">See how your friends completed today's challenges</p>
       </div>
-      
-      {renderCategories()}
       
       <div className="space-y-6 pb-16">
         {posts.map(post => (

@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Bell, User, ChevronLeft, Compass, Palette, BookOpen, Home } from 'lucide-react';
+import { Bell, User, ChevronLeft, Home } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 const Header: React.FC = () => {
@@ -41,35 +41,6 @@ const Header: React.FC = () => {
           </motion.div>
         )}
       </div>
-      
-      {location.pathname === '/feed' && (
-        <div className="absolute left-1/2 transform -translate-x-1/2 flex space-x-1">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="text-[hsl(var(--teal-green))]"
-            onClick={() => {/* Filter by exploration */}}
-          >
-            <Compass size={18} />
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="text-[hsl(var(--coral-red))]"
-            onClick={() => {/* Filter by art */}}
-          >
-            <Palette size={18} />
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="text-[hsl(var(--warm-brown))]"
-            onClick={() => {/* Filter by reading */}}
-          >
-            <BookOpen size={18} />
-          </Button>
-        </div>
-      )}
       
       <div className="flex items-center space-x-1">
         <Button variant="ghost" size="icon" onClick={() => navigate('/feed')} className="text-[hsl(var(--deep-blue))]">
