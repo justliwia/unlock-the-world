@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { 
   BookOpen, Music, Palette, Coffee, Camera, Map, 
-  Compass, Utensils, Heart, Dumbbell, Code, Plant, Star 
+  Compass, Utensils, Heart, Dumbbell, Code, Leaf, Star 
 } from 'lucide-react';
 
 const interestAreas = [
@@ -21,7 +21,7 @@ const interestAreas = [
   { id: 'wellness', name: 'Wellness', icon: Heart, color: 'hsl(340, 80%, 55%)' },
   { id: 'fitness', name: 'Fitness', icon: Dumbbell, color: 'hsl(200, 60%, 50%)' },
   { id: 'coding', name: 'Coding', icon: Code, color: 'hsl(210, 50%, 40%)' },
-  { id: 'gardening', name: 'Gardening', icon: Plant, color: 'hsl(120, 40%, 45%)' },
+  { id: 'gardening', name: 'Gardening', icon: Leaf, color: 'hsl(120, 40%, 45%)' },
 ];
 
 const Customize = () => {
