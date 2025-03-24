@@ -8,8 +8,16 @@ import { Button } from "@/components/ui/button";
 const Index = () => {
   const navigate = useNavigate();
   
+  const handleCreateAccount = () => {
+    navigate('/signup');
+  };
+  
+  const handleDemoNavigation = () => {
+    navigate('/feed');
+  };
+  
   return (
-    <div className="min-h-screen flex flex-col items-center bg-[hsl(var(--soft-cream))]">
+    <div className="min-h-screen flex flex-col items-center bg-[hsl(var(--soft-cream))] overflow-y-auto">
       <div className="w-full max-w-md px-4 pt-16 pb-20">
         <motion.div 
           className="text-center mb-12"
@@ -95,7 +103,7 @@ const Index = () => {
           transition={{ delay: 0.6, duration: 0.5 }}
         >
           <Button
-            onClick={() => navigate('/signup')}
+            onClick={handleCreateAccount}
             className="w-full btn-primary h-12"
           >
             Create Account
@@ -104,7 +112,7 @@ const Index = () => {
           
           <div className="text-center">
             <button 
-              onClick={() => navigate('/feed')} 
+              onClick={handleDemoNavigation} 
               className="text-[hsl(var(--deep-blue))] hover:underline text-sm font-medium"
             >
               Demo without signing up

@@ -48,8 +48,9 @@
   }
 
   html, body, #root {
-    @apply h-full w-full overflow-hidden;
+    @apply h-full w-full;
     background-color: hsl(var(--soft-cream));
+    overflow-y: auto; /* Allow vertical scrolling */
   }
 
   body {

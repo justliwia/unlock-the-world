@@ -92,6 +92,10 @@ const Customize = () => {
     }
   };
   
+  const handleBack = () => {
+    setStep(1);
+  };
+  
   const renderRatingSelector = (interestId: string) => {
     const rating = interestRatings[interestId] || 3;
     
@@ -121,7 +125,7 @@ const Customize = () => {
   };
   
   return (
-    <div className="min-h-screen flex flex-col items-center p-4 bg-[hsl(var(--soft-cream))]">
+    <div className="min-h-screen flex flex-col items-center p-4 bg-[hsl(var(--soft-cream))] overflow-y-auto">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -206,7 +210,7 @@ const Customize = () => {
           {step === 2 && (
             <Button
               variant="outline"
-              onClick={() => setStep(1)}
+              onClick={handleBack}
               className="flex-1"
             >
               Back
