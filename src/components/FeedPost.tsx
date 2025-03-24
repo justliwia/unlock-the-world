@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Mic, Heart, MessageCircle, MapPin, Send, X, Play, Pause } from 'lucide-react';
+import { Mic, Heart, MessageCircle, MapPin, Send, X, Play, Pause, BookOpen, Music, Palette, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -28,13 +28,15 @@ interface FeedPostProps {
       name: string;
       avatar: string;
     };
-    image: string;
+    image?: string;
     caption: string;
     location?: string;
+    category?: string;
     timestamp: Date;
     likes: number;
     comments: number;
     hasLiked?: boolean;
+    textContent?: boolean;
     commentsList?: Comment[];
   };
 }
@@ -119,6 +121,42 @@ const FeedPost: React.FC<FeedPostProps> = ({ post }) => {
     }
   };
   
+  const getCategoryIcon = () => {
+    if (!post.category) return <Star size={14} />;
+    
+    switch (post.category.toLowerCase()) {
+      case 'reading':
+        return <BookOpen size={14} />;
+      case 'music':
+        return <Music size={14} />;
+      case 'art':
+        return <Palette size={14} />;
+      case 'exploration':
+        return <Star size={14} />;
+      default:
+        return <Star size={14} />;
+    }
+  };
+  
+  const getCategoryColor = () => {
+    if (!post.category) return "bg-[hsl(var(--deep-blue))]/10 text-[hsl(var(--deep-blue))]";
+    
+    switch (post.category.toLowerCase()) {
+      case 'reading':
+        return "bg-[hsl(var(--warm-brown))]/10 text-[hsl(var(--warm-brown))]";
+      case 'music':
+        return "bg-[hsl(var(--deep-blue))]/10 text-[hsl(var(--deep-blue))]";
+      case 'art':
+        return "bg-[hsl(var(--coral-red))]/10 text-[hsl(var(--coral-red))]";
+      case 'food & drink':
+        return "bg-[hsl(var(--warm-brown))]/10 text-[hsl(var(--warm-brown))]";
+      case 'exploration':
+        return "bg-[hsl(var(--teal-green))]/10 text-[hsl(var(--teal-green))]";
+      default:
+        return "bg-[hsl(var(--deep-blue))]/10 text-[hsl(var(--deep-blue))]";
+    }
+  };
+  
   return (
     <motion.div 
       className="glass rounded-xl overflow-hidden mb-6 max-w-md mx-auto"
@@ -133,7 +171,12 @@ const FeedPost: React.FC<FeedPostProps> = ({ post }) => {
             <AvatarFallback>{post.user.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <div>
-            <div className="font-medium">{post.user.name}</div>
+            <div className="font-medium flex items-center">
+              {post.user.name}
+              {post.user.id === 'current-user' && (
+                <span className="ml-2 text-xs px-1.5 py-0.5 bg-primary/10 text-primary rounded-full">You</span>
+              )}
+            </div>
             <div className="text-xs text-muted-foreground flex items-center">
               {post.location && (
                 <>
@@ -142,21 +185,41 @@ const FeedPost: React.FC<FeedPostProps> = ({ post }) => {
                 </>
               )}
               <span>{getTimeAgo(post.timestamp)}</span>
+              
+              {post.category && (
+                <span className={`ml-2 flex items-center px-1.5 py-0.5 rounded-full text-xs ${getCategoryColor()}`}>
+                  {getCategoryIcon()}
+                  <span className="ml-1">{post.category}</span>
+                </span>
+              )}
             </div>
           </div>
         </div>
       </div>
       
-      <div className="relative">
-        <img 
-          src={post.image} 
-          alt="Post" 
-          className="w-full aspect-square object-cover"
-        />
-      </div>
+      {post.image && (
+        <div className="relative">
+          <img 
+            src={post.image} 
+            alt="Post" 
+            className="w-full aspect-square object-cover"
+          />
+        </div>
+      )}
       
       <div className="p-4">
-        <div className="flex items-center justify-between mb-3">
+        {post.textContent ? (
+          <div className="bg-[hsl(var(--soft-cream))]/50 p-4 rounded-xl mb-3">
+            <p className="text-sm whitespace-pre-line">{post.caption}</p>
+          </div>
+        ) : (
+          <p className="text-sm mb-3">
+            <span className="font-medium">{post.user.name}</span>{' '}
+            {post.caption}
+          </p>
+        )}
+        
+        <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <motion.button
               whileTap={{ scale: 0.9 }}
@@ -193,11 +256,6 @@ const FeedPost: React.FC<FeedPostProps> = ({ post }) => {
             <Mic size={18} />
           </motion.button>
         </div>
-        
-        <p className="text-sm">
-          <span className="font-medium">{post.user.name}</span>{' '}
-          {post.caption}
-        </p>
         
         {showComments && (
           <div className="mt-4 pt-4 border-t">

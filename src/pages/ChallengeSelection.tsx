@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   BookOpen, Music, Palette, Coffee, Camera, Map, 
-  ArrowRight, Star, Check, Clock 
+  ArrowRight, Star, Check, Clock, PenLine
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import ScrollableContent from '@/components/ScrollableContent';
 
 // Map interest IDs to icons
 const interestIcons: Record<string, any> = {
@@ -99,6 +100,13 @@ const challenges = {
       title: 'New Route Home',
       description: 'Take a different route home today and share something interesting you discovered.',
       type: 'photo',
+      difficulty: 'easy',
+    },
+    {
+      id: 'exploration-3',
+      title: 'Daily Reflection',
+      description: 'Write about a moment from today that made you pause and appreciate your surroundings.',
+      type: 'text',
       difficulty: 'easy',
     }
   ],
@@ -221,18 +229,18 @@ const ChallengeSelection = () => {
                   <h3 className="font-medium">{challenge.title}</h3>
                   <p className="text-sm text-muted-foreground mt-1">{challenge.description}</p>
                   
-                  <div className="flex items-center mt-3 space-x-3">
-                    <div className="flex items-center text-xs bg-[hsl(var(--deep-blue))]/10 text-[hsl(var(--deep-blue))] px-2 py-1 rounded-full">
-                      {challenge.type === 'photo' ? <Camera size={12} className="mr-1" /> : <BookOpen size={12} className="mr-1" />}
+                  <div className="flex items-center mt-3 space-x-3 flex-wrap">
+                    <div className="flex items-center text-xs bg-[hsl(var(--deep-blue))]/10 text-[hsl(var(--deep-blue))] px-2 py-1 rounded-full mb-1">
+                      {challenge.type === 'photo' ? <Camera size={12} className="mr-1" /> : <PenLine size={12} className="mr-1" />}
                       {challenge.type === 'photo' ? 'Photo' : 'Text'}
                     </div>
                     
-                    <div className="flex items-center text-xs bg-[hsl(var(--warm-brown))]/10 text-[hsl(var(--warm-brown))] px-2 py-1 rounded-full">
+                    <div className="flex items-center text-xs bg-[hsl(var(--warm-brown))]/10 text-[hsl(var(--warm-brown))] px-2 py-1 rounded-full mb-1">
                       <Star size={12} className="mr-1" />
                       {challenge.difficulty}
                     </div>
                     
-                    <div className="flex items-center text-xs bg-[hsl(var(--teal-green))]/10 text-[hsl(var(--teal-green))] px-2 py-1 rounded-full">
+                    <div className="flex items-center text-xs bg-[hsl(var(--teal-green))]/10 text-[hsl(var(--teal-green))] px-2 py-1 rounded-full mb-1">
                       <Clock size={12} className="mr-1" />
                       ~15 min
                     </div>
@@ -261,7 +269,7 @@ const ChallengeSelection = () => {
   }
   
   return (
-    <div className="min-h-screen bg-[hsl(var(--soft-cream))] p-4">
+    <div className="min-h-screen bg-[hsl(var(--soft-cream))] p-4 overflow-hidden">
       <div className="max-w-md mx-auto pt-6 pb-20">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -274,14 +282,16 @@ const ChallengeSelection = () => {
           </p>
         </motion.div>
         
-        <div className="glass rounded-2xl p-5 mb-6">
-          {userInterests.map(interest => renderInterestChallenges(interest))}
-        </div>
+        <ScrollableContent className="pr-2" maxHeight="calc(100vh - 250px)">
+          <div className="glass rounded-2xl p-5 mb-6">
+            {userInterests.map(interest => renderInterestChallenges(interest))}
+          </div>
+        </ScrollableContent>
         
         <Button
           onClick={handleStartChallenge}
           disabled={!selectedChallenge}
-          className="w-full btn-primary"
+          className="w-full btn-primary mt-6"
         >
           Start Challenge
           <ArrowRight size={16} className="ml-2" />

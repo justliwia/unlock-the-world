@@ -4,11 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import FeedPost from '@/components/FeedPost';
 import TimeLimit from '@/components/TimeLimit';
-import { ScrollArea } from "@/components/ui/scroll-area";
+import ScrollableContent from '@/components/ScrollableContent';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from "@/components/ui/button";
 import { Bell, Calendar, Star, BookOpen, Music, Palette } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Feed = () => {
   const navigate = useNavigate();
@@ -22,7 +21,32 @@ const Feed = () => {
   useEffect(() => {
     // Simulate loading posts
     const timer = setTimeout(() => {
-      setPosts([
+      // Get current challenge if any
+      const currentChallenge = JSON.parse(localStorage.getItem('vibe_current_challenge') || '{}');
+      
+      // Create posts array with diverse content types
+      const mockPosts = [
+        // User's own post (if challenge was completed)
+        ...(currentChallenge.completed ? [{
+          id: 'user-post',
+          user: {
+            id: 'current-user',
+            name: 'You',
+            avatar: 'https://i.pravatar.cc/150?img=33',
+          },
+          image: currentChallenge.type === 'photo' ? 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4' : undefined,
+          caption: currentChallenge.type === 'photo' 
+            ? `Just completed my "${currentChallenge.title}" challenge!` 
+            : `My thoughts on "${currentChallenge.title}": I found this experience to be really eye-opening. Taking time to reflect on this challenge made me appreciate the small moments more.`,
+          location: currentChallenge.type === 'photo' ? 'New Discovery' : undefined,
+          category: currentChallenge.interest || 'Exploration',
+          timestamp: new Date(),
+          likes: 0,
+          comments: 0,
+          textContent: currentChallenge.type === 'text' ? true : false,
+          commentsList: [],
+        }] : []),
+        // Friend's text post (reading challenge)
         {
           id: '1',
           user: {
@@ -30,13 +54,12 @@ const Feed = () => {
             name: 'Emma Wilson',
             avatar: 'https://i.pravatar.cc/150?img=1',
           },
-          image: 'https://images.unsplash.com/photo-1607560105214-0ddef7080cb0',
-          caption: "Found this amazing hidden garden tucked away between buildings. Never knew it existed!",
-          location: 'Secret Garden',
-          category: 'Exploration',
+          textContent: true,
+          caption: "Just finished 'The Midnight Library' by Matt Haig. It made me reflect on how each decision shapes different versions of our lives. Favorite quote: 'Between life and death there is a library, and within that library, the shelves go on forever.'",
+          category: 'Reading',
           timestamp: new Date(new Date().getTime() - 15 * 60 * 1000), // 15 minutes ago
-          likes: 12,
-          comments: 4,
+          likes: 14,
+          comments: 3,
           commentsList: [
             {
               id: 'c1',
@@ -45,7 +68,7 @@ const Feed = () => {
                 name: 'Olivia Martinez',
                 avatar: 'https://i.pravatar.cc/150?img=5',
               },
-              text: "This looks amazing! Where exactly is it?",
+              text: "I loved that book too! Have you read his other work?",
               timestamp: new Date(new Date().getTime() - 10 * 60 * 1000),
             },
             {
@@ -61,6 +84,7 @@ const Feed = () => {
             },
           ],
         },
+        // Friend's photo post (exploration challenge)
         {
           id: '2',
           user: {
@@ -97,18 +121,9 @@ const Feed = () => {
               voiceDuration: 15,
               timestamp: new Date(new Date().getTime() - 20 * 60 * 1000),
             },
-            {
-              id: 'c5',
-              user: {
-                id: 'user9',
-                name: 'Liam Johnson',
-                avatar: 'https://i.pravatar.cc/150?img=11',
-              },
-              text: "Their cold brew is amazing, definitely try it!",
-              timestamp: new Date(new Date().getTime() - 15 * 60 * 1000),
-            },
           ],
         },
+        // Friend's text post (music challenge)
         {
           id: '3',
           user: {
@@ -116,13 +131,12 @@ const Feed = () => {
             name: 'Maya Johnson',
             avatar: 'https://i.pravatar.cc/150?img=5',
           },
-          image: 'https://images.unsplash.com/photo-1504173010664-32509aeebb62',
-          caption: "Stumbled upon this street art in an alley I never explore. Our city has so many hidden gems!",
-          location: 'Artist Alley',
-          category: 'Art',
+          textContent: true,
+          caption: "Today's song discovery: 'Circles' by Post Malone. There's something about the melancholic tune paired with these lyrics that just resonates with where I am right now. What songs have been in your rotation lately?",
+          category: 'Music',
           timestamp: new Date(new Date().getTime() - 55 * 60 * 1000), // 55 minutes ago
           likes: 18,
-          comments: 3,
+          comments: 5,
           commentsList: [
             {
               id: 'c6',
@@ -131,7 +145,7 @@ const Feed = () => {
                 name: 'Ava Taylor',
                 avatar: 'https://i.pravatar.cc/150?img=7',
               },
-              text: "This is part of the new urban art initiative! Love seeing these pop up",
+              text: "Love that song! I've had 'Blinding Lights' by The Weeknd on repeat this week.",
               timestamp: new Date(new Date().getTime() - 40 * 60 * 1000),
             },
             {
@@ -147,6 +161,7 @@ const Feed = () => {
             },
           ],
         },
+        // Friend's photo post (art challenge)
         {
           id: '4',
           user: {
@@ -154,10 +169,10 @@ const Feed = () => {
             name: 'Jamie Roberts',
             avatar: 'https://i.pravatar.cc/150?img=13',
           },
-          image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
-          caption: "Today's reading challenge complete! Found this peaceful spot by the lake to finish my book.",
-          location: 'Tranquil Lake',
-          category: 'Reading',
+          image: 'https://images.unsplash.com/photo-1504173010664-32509aeebb62',
+          caption: "Stumbled upon this street art in an alley I never explore. Our city has so many hidden gems!",
+          location: 'Artist Alley',
+          category: 'Art',
           timestamp: new Date(new Date().getTime() - 75 * 60 * 1000), // 75 minutes ago
           likes: 31,
           comments: 5,
@@ -169,22 +184,14 @@ const Feed = () => {
                 name: 'Harper Wilson',
                 avatar: 'https://i.pravatar.cc/150?img=10',
               },
-              text: "What book were you reading? The view looks incredible!",
+              text: "The colors are amazing! Who's the artist?",
               timestamp: new Date(new Date().getTime() - 65 * 60 * 1000),
-            },
-            {
-              id: 'c9',
-              user: {
-                id: 'user4',
-                name: 'Jamie Roberts',
-                avatar: 'https://i.pravatar.cc/150?img=13',
-              },
-              text: "It's 'The Midnight Library' by Matt Haig - highly recommend!",
-              timestamp: new Date(new Date().getTime() - 60 * 60 * 1000),
             },
           ],
         },
-      ]);
+      ];
+      
+      setPosts(mockPosts);
       setLoading(false);
     }, 1500);
     
@@ -246,14 +253,14 @@ const Feed = () => {
             <div className="w-10 h-10 border-4 border-[hsl(var(--teal-green))] border-t-transparent rounded-full animate-rotate-360" />
           </div>
         ) : isMobile ? (
-          <ScrollArea className="h-[calc(100vh-8rem)] pr-2">
+          <ScrollableContent className="h-[calc(100vh-8rem)] pr-2">
             {renderContent()}
-          </ScrollArea>
+          </ScrollableContent>
         ) : (
           renderContent()
         )}
         
-        <TimeLimit timeLeft={timeLimitInSeconds} onTimeEnd={handleTimeEnd} />
+        <TimeLimit timeLimit={timeLimitInSeconds} onTimeEnd={handleTimeEnd} />
       </main>
     </div>
   );

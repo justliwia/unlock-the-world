@@ -2,33 +2,34 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { Clock } from 'lucide-react';
 
 interface TimeLimitProps {
-  timeLeft: number; // in seconds
+  timeLimit: number; // in seconds
   onTimeEnd: () => void;
 }
 
-const TimeLimit: React.FC<TimeLimitProps> = ({ timeLeft, onTimeEnd }) => {
-  const [remainingTime, setRemainingTime] = useState(timeLeft);
+const TimeLimit: React.FC<TimeLimitProps> = ({ timeLimit, onTimeEnd }) => {
+  const [elapsedTime, setElapsedTime] = useState(0);
   const [isWarning, setIsWarning] = useState(false);
   
   useEffect(() => {
-    if (remainingTime <= 0) {
+    if (elapsedTime >= timeLimit) {
       onTimeEnd();
       return;
     }
     
     // Set warning when less than 1 minute left
-    if (remainingTime <= 60 && !isWarning) {
+    if (timeLimit - elapsedTime <= 60 && !isWarning) {
       setIsWarning(true);
     }
     
     const timer = setTimeout(() => {
-      setRemainingTime(prev => prev - 1);
+      setElapsedTime(prev => prev + 1);
     }, 1000);
     
     return () => clearTimeout(timer);
-  }, [remainingTime, onTimeEnd, isWarning]);
+  }, [elapsedTime, timeLimit, onTimeEnd, isWarning]);
   
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -36,32 +37,33 @@ const TimeLimit: React.FC<TimeLimitProps> = ({ timeLeft, onTimeEnd }) => {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
   
-  const percentLeft = (remainingTime / timeLeft) * 100;
+  const percentElapsed = (elapsedTime / timeLimit) * 100;
   
   return (
     <motion.div 
-      className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-20"
-      initial={{ y: 50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      className="fixed top-20 right-4 z-20"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ delay: 0.5, duration: 0.4 }}
     >
-      <div className="glass px-4 py-2 rounded-full shadow-md flex items-center">
-        <div className="w-36 h-2 bg-secondary rounded-full overflow-hidden mr-3">
+      <div className="glass px-3 py-1.5 rounded-full shadow-md flex items-center">
+        <Clock size={14} className="mr-1.5 text-primary" />
+        <div className="w-24 h-1.5 bg-secondary/30 rounded-full overflow-hidden mr-2">
           <motion.div 
             className={cn(
               "h-full rounded-full",
               isWarning ? "bg-red-500" : "bg-primary"
             )}
-            initial={{ width: '100%' }}
-            animate={{ width: `${percentLeft}%` }}
+            initial={{ width: '0%' }}
+            animate={{ width: `${percentElapsed}%` }}
             transition={{ duration: 0.5 }}
           />
         </div>
         <span className={cn(
-          "font-medium text-sm",
+          "font-medium text-xs",
           isWarning ? "text-red-500" : "text-foreground"
         )}>
-          {formatTime(remainingTime)}
+          {formatTime(elapsedTime)}
         </span>
       </div>
     </motion.div>
