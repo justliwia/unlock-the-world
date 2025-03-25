@@ -4,15 +4,31 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Camera, MessageCircle, Clock, Heart } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { toast } from 'sonner';
 
 const Index = () => {
   const navigate = useNavigate();
+  const [showDemoDialog, setShowDemoDialog] = React.useState(false);
   
   const handleCreateAccount = () => {
     navigate('/signup');
   };
   
   const handleDemoNavigation = () => {
+    setShowDemoDialog(true);
+  };
+  
+  const handleProceedToDemo = () => {
+    setShowDemoDialog(false);
+    toast.info("You are in demo mode. Some features are limited.");
     navigate('/feed');
   };
   
@@ -120,6 +136,25 @@ const Index = () => {
           </div>
         </motion.div>
       </div>
+      
+      <Dialog open={showDemoDialog} onOpenChange={setShowDemoDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Demo Mode Limitations</DialogTitle>
+            <DialogDescription>
+              You cannot complete a challenge without signing up. You will only see the feed page in demo mode.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => setShowDemoDialog(false)}>
+              Create Account
+            </Button>
+            <Button onClick={handleProceedToDemo} className="sm:ml-2">
+              Proceed Regardless
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
