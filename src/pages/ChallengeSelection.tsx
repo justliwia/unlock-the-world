@@ -37,6 +37,20 @@ const challenges = {
       description: 'Write a short review of a book you recently read and would recommend to others.',
       type: 'text',
       difficulty: 'medium',
+    },
+    {
+      id: 'reading-3',
+      title: 'Most Impactful Quote',
+      description: 'Share a quote from a book that changed your perspective and explain why it resonated with you.',
+      type: 'text',
+      difficulty: 'easy',
+    },
+    {
+      id: 'reading-4',
+      title: 'Reading Reflection',
+      description: 'Write about how your reading habits have evolved over time and what genres currently captivate you.',
+      type: 'text',
+      difficulty: 'medium',
     }
   ],
   art: [
@@ -53,6 +67,20 @@ const challenges = {
       description: 'Draw something that represents your current mood and share it with the community.',
       type: 'photo',
       difficulty: 'medium',
+    },
+    {
+      id: 'art-3',
+      title: 'Art Appreciation',
+      description: 'Write about an artwork that has influenced you and explain how it has shaped your perspective.',
+      type: 'text',
+      difficulty: 'medium',
+    },
+    {
+      id: 'art-4',
+      title: 'Creative Inspiration',
+      description: 'Describe what inspires your creativity today and how you plan to channel it.',
+      type: 'text',
+      difficulty: 'easy',
     }
   ],
   music: [
@@ -68,6 +96,20 @@ const challenges = {
       title: 'Local Music Venue',
       description: 'Find a local music venue or spot where musicians perform and share it.',
       type: 'photo',
+      difficulty: 'medium',
+    },
+    {
+      id: 'music-3',
+      title: 'Music Memory',
+      description: 'Write about a song that brings back a specific memory and detail why it's significant to you.',
+      type: 'text',
+      difficulty: 'medium',
+    },
+    {
+      id: 'music-4',
+      title: 'Musical Journey',
+      description: 'Reflect on how your music taste has evolved over the years and what it says about you.',
+      type: 'text',
       difficulty: 'medium',
     }
   ],
@@ -85,6 +127,20 @@ const challenges = {
       description: 'Find an interesting shadow or reflection and photograph it creatively.',
       type: 'photo',
       difficulty: 'medium',
+    },
+    {
+      id: 'photography-3',
+      title: 'Visual Storytelling',
+      description: 'Write about a photograph that tells a compelling story and explain what elements make it powerful.',
+      type: 'text',
+      difficulty: 'medium',
+    },
+    {
+      id: 'photography-4',
+      title: 'Photography Philosophy',
+      description: 'Share your thoughts on what makes a photograph truly meaningful in today's visual culture.',
+      type: 'text',
+      difficulty: 'hard',
     }
   ],
   exploration: [
@@ -108,6 +164,20 @@ const challenges = {
       description: 'Write about a moment from today that made you pause and appreciate your surroundings.',
       type: 'text',
       difficulty: 'easy',
+    },
+    {
+      id: 'exploration-4',
+      title: 'Urban Discovery',
+      description: 'Describe a neighborhood in your city that feels like a different world and what makes it unique.',
+      type: 'text',
+      difficulty: 'medium',
+    },
+    {
+      id: 'exploration-5',
+      title: 'Travel Memories',
+      description: 'Write about a place you've visited that left a lasting impression and why it still resonates with you.',
+      type: 'text',
+      difficulty: 'medium',
     }
   ],
   // Add more interests and their challenges
@@ -282,7 +352,7 @@ const ChallengeSelection = () => {
           </p>
         </motion.div>
         
-        <ScrollableContent className="pr-2" maxHeight="calc(100vh - 250px)">
+        <ScrollableContent className="pr-2" maxHeight="calc(100vh - 220px)">
           <div className="glass rounded-2xl p-5 mb-6">
             {userInterests.map(interest => renderInterestChallenges(interest))}
           </div>
