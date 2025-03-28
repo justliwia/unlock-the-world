@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -329,12 +330,12 @@ const ChallengeSelection = () => {
   }
   
   return (
-    <div className="min-h-screen bg-[hsl(var(--soft-cream))] p-4 overflow-hidden">
+    <div className="min-h-screen bg-[hsl(var(--soft-cream))] p-4">
       <div className="max-w-md mx-auto pt-6 pb-20">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          className="text-center mb-6"
         >
           <h1 className="text-2xl font-bold text-gradient mb-2">Daily Challenge</h1>
           <p className="text-muted-foreground">
@@ -344,9 +345,9 @@ const ChallengeSelection = () => {
         
         <ScrollableContent 
           className="pr-2" 
-          maxHeight="calc(100vh - 230px)"
+          maxHeight="calc(100vh - 240px)"
         >
-          <div className="glass rounded-2xl p-5 mb-6">
+          <div className="glass rounded-2xl p-5">
             {userInterests.map(interest => renderInterestChallenges(interest))}
           </div>
         </ScrollableContent>
