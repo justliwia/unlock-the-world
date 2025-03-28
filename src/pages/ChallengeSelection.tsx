@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import ScrollableContent from '@/components/ScrollableContent';
 
-// Map interest IDs to icons
 const interestIcons: Record<string, any> = {
   reading: BookOpen,
   music: Music,
@@ -18,7 +17,6 @@ const interestIcons: Record<string, any> = {
   photography: Camera,
   travel: Map,
   exploration: Map,
-  // Add more mappings as needed
 };
 
 const challenges = {
@@ -179,7 +177,6 @@ const challenges = {
       difficulty: 'medium',
     }
   ],
-  // Add more interests and their challenges
 };
 
 const ChallengeSelection = () => {
@@ -190,12 +187,10 @@ const ChallengeSelection = () => {
   const [selectedChallenge, setSelectedChallenge] = useState<string | null>(null);
   
   useEffect(() => {
-    // Load user interests from local storage
     const userData = JSON.parse(localStorage.getItem('vibe_user') || '{}');
     const interests = userData.interests || [];
     
     if (interests.length === 0) {
-      // If no interests found, redirect to customize page
       toast({
         title: "No interests found",
         description: "Please set up your interests first.",
@@ -222,7 +217,6 @@ const ChallengeSelection = () => {
       return;
     }
     
-    // Find the selected challenge details
     let challengeDetails = null;
     Object.keys(challenges).forEach(interestKey => {
       const interestChallenges = challenges[interestKey as keyof typeof challenges];
@@ -244,14 +238,12 @@ const ChallengeSelection = () => {
       return;
     }
     
-    // Save the selected challenge to local storage
     localStorage.setItem('vibe_current_challenge', JSON.stringify({
       ...challengeDetails,
       selectedAt: new Date().toISOString(),
       completed: false
     }));
     
-    // Navigate to the capture page
     navigate('/capture');
   };
   
@@ -259,7 +251,6 @@ const ChallengeSelection = () => {
     const interestId = interest.id;
     const interestChallenges = challenges[interestId as keyof typeof challenges] || [];
     
-    // If no challenges for this interest, return null
     if (interestChallenges.length === 0) {
       return null;
     }
@@ -351,7 +342,10 @@ const ChallengeSelection = () => {
           </p>
         </motion.div>
         
-        <ScrollableContent className="pr-2" maxHeight="calc(100vh - 220px)">
+        <ScrollableContent 
+          className="pr-2" 
+          maxHeight="calc(100vh - 230px)"
+        >
           <div className="glass rounded-2xl p-5 mb-6">
             {userInterests.map(interest => renderInterestChallenges(interest))}
           </div>

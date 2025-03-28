@@ -14,9 +14,11 @@ const ScrollableContent = ({
   maxHeight = "calc(100vh - 80px)",
 }: ScrollableContentProps) => {
   return (
-    <ScrollArea className={`w-full ${className}`} style={{ maxHeight }}>
-      {children}
-    </ScrollArea>
+    <div style={{ maxHeight, overflow: 'hidden' }} className={`w-full ${className}`}>
+      <ScrollArea className="h-full w-full">
+        {children}
+      </ScrollArea>
+    </div>
   );
 };
 
