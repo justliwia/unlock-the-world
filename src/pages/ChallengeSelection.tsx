@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -101,7 +100,7 @@ const challenges = {
     {
       id: 'music-3',
       title: 'Music Memory',
-      description: 'Write about a song that brings back a specific memory and detail why it's significant to you.',
+      description: 'Write about a song that brings back a specific memory and detail why it\'s significant to you.',
       type: 'text',
       difficulty: 'medium',
     },
@@ -138,7 +137,7 @@ const challenges = {
     {
       id: 'photography-4',
       title: 'Photography Philosophy',
-      description: 'Share your thoughts on what makes a photograph truly meaningful in today's visual culture.',
+      description: 'Share your thoughts on what makes a photograph truly meaningful in today\'s visual culture.',
       type: 'text',
       difficulty: 'hard',
     }
@@ -175,7 +174,7 @@ const challenges = {
     {
       id: 'exploration-5',
       title: 'Travel Memories',
-      description: 'Write about a place you've visited that left a lasting impression and why it still resonates with you.',
+      description: 'Write about a place you\'ve visited that left a lasting impression and why it still resonates with you.',
       type: 'text',
       difficulty: 'medium',
     }
